@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GetOrgaoDetailResponse xmlns="http://tce.rs.gov.br"
-		                xsi:schemaLocation="http://tce.rs.gov.br orgao-information.xsd"
+<GetOrgaoDetailResponse xmlns="http://intelligenceweb.com.br"
+		                xsi:schemaLocation="http://intelligenceweb.com.br orgao-information.xsd"
                         xmlns:xsi="http://www/w3/org/2001/XMLSchema-instance" >
 	<OrgaoDetail>
 		<id>88019</id>

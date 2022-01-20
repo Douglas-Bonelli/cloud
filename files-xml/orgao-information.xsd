@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-		   targetNamespace="http://tce.rs.gov.br" 
-		   xmlns:tns="http://tce.rs.gov.br" 
+		   targetNamespace="http://intelligenceweb.com.br" 
+		   xmlns:tns="http://intelligenceweb.com.br" 
 		   elementFormDefault="qualified" >
 		
 		

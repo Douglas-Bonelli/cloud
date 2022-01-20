@@ -13,14 +13,14 @@ import br.com.intelligence.project.cloud.entity.Orgao;
 import br.com.intelligence.project.cloud.exception.NotFoundException;
 import br.com.intelligence.project.cloud.helper.Status;
 import br.com.intelligence.project.cloud.service.imp.OrgaoServiceImp;
-import br.gov.rs.tce.DeleteOrgaoRequest;
-import br.gov.rs.tce.DeleteOrgaoResponse;
-import br.gov.rs.tce.GetAllOrgaoDetailRequest;
-import br.gov.rs.tce.GetAllOrgaoDetailResponse;
-import br.gov.rs.tce.GetOrgaoDetailRequest;
-import br.gov.rs.tce.GetOrgaoDetailResponse;
-import br.gov.rs.tce.OrgaoDetail;
-import br.gov.rs.tce.StatusSoap;
+import br.com.intelligenceweb.DeleteOrgaoRequest;
+import br.com.intelligenceweb.DeleteOrgaoResponse;
+import br.com.intelligenceweb.GetAllOrgaoDetailRequest;
+import br.com.intelligenceweb.GetAllOrgaoDetailResponse;
+import br.com.intelligenceweb.GetOrgaoDetailRequest;
+import br.com.intelligenceweb.GetOrgaoDetailResponse;
+import br.com.intelligenceweb.OrgaoDetail;
+import br.com.intelligenceweb.StatusSoap;
 
 @Endpoint
 public class OrgaoEndPoint {
@@ -30,7 +30,7 @@ public class OrgaoEndPoint {
 	
 	
 	
-	@PayloadRoot( namespace = "http://tce.rs.gov.br" , localPart = "GetOrgaoDetailRequest" )
+	@PayloadRoot( namespace = "http://intelligenceweb.com.br" , localPart = "GetOrgaoDetailRequest" )
 	@ResponsePayload
 	public GetOrgaoDetailResponse processGetOrgaoDetailRequest(@RequestPayload GetOrgaoDetailRequest req) throws Exception {
 		
@@ -44,14 +44,14 @@ public class OrgaoEndPoint {
 	}
 	
 	
-	@PayloadRoot( namespace = "http://tce.rs.gov.br" , localPart = "GetAllOrgaoDetailRequest" )
+	@PayloadRoot( namespace = "http://intelligenceweb.com.br" , localPart = "GetAllOrgaoDetailRequest" )
 	@ResponsePayload
 	public GetAllOrgaoDetailResponse processGetAllOrgaoDetailRequest(@RequestPayload GetAllOrgaoDetailRequest req) throws Exception {
 		return convertToGetAllCustomerDetailResponse( service.getAll() );
 	}
 	
 	
-	@PayloadRoot( namespace = "http://tce.rs.gov.br" , localPart = "DeleteOrgaoRequest" )
+	@PayloadRoot( namespace = "http://intelligenceweb.com.br" , localPart = "DeleteOrgaoRequest" )
 	@ResponsePayload
 	public DeleteOrgaoResponse procesDeleteOrgaoRequest(@RequestPayload DeleteOrgaoRequest req) throws Exception {
 		DeleteOrgaoResponse resp = new DeleteOrgaoResponse();

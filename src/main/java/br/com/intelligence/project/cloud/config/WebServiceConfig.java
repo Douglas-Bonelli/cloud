@@ -50,7 +50,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 		DefaultWsdl11Definition  definition = new DefaultWsdl11Definition();
 
 		definition.setPortTypeName("OrgaoPort");
-		definition.setTargetNamespace("http://tce.rs.gov.br");
+		definition.setTargetNamespace("http://intelligenceweb.com.br");
 		definition.setLocationUri("/ws");
 		definition.setSchema(orgaoSchema);	
 
