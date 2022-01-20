@@ -86,7 +86,7 @@ Incluir no XML de requisição no SOAPUI
 Por Exemplo:
 
 
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tce="http://tce.rs.gov.br">
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tce="http://intelligenceweb.com.br">
 
    <soapenv:Header>
 	
