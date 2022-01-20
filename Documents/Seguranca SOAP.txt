@@ -1,0 +1,115 @@
+Implementação de Segurança No SOAP Spring
+Tipos de Segurança
+
+Ws-Security
+	Authentication( autenticação )
+	Digital signatures( Assinaturas digitais )
+	Certificates( certificados )
+
+XWSS - > XML and WEB Services Security
+	Security Policy
+	XwsSecurityInterceptor -> Apenas Solicitações com usuário e Senha Podem Acessar nosso Serviço.
+
+----------------------------------------------------------
+Dependencias de Segurança:
+
+<dependency>
+	<groupId>org.springframework.ws</groupId>
+	<artifactId>spring-ws-security</artifactId>
+	<exclusions>
+		<exclusion>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+		</exclusion>
+	</exclusions>
+</dependency>
+
+
+<dependency>
+	<groupId>com.sum.xml.wss</groupId>
+	<artifactId>xws-security</artifactId>
+	<version>3.0</version>
+	<exclusions>
+		<exclusion>
+			<groupId>javax.xml.crypto</groupId>
+			<artifactId>xmldsig</artifactId>
+		</exclusion>
+	</exclusions>
+</dependency>
+
+
+<dependency>
+	<groupId>javax.activation</groupId>
+	<artifactId>activation</artifactId>
+	<version>1.1.1</version>
+</dependency>
+
+--Ajustar a webService config para incluir as alterações de segurança.
+
+
+@Bean
+public XwsSecurityInterceptor securityInterceptor(){
+	XwsSecurityInterceptor securityInterceptor = new XwsSecurityInterceptor();
+	securityInterceptor.setCallbackHandler(callbackHandler());
+	securityInterceptor.setPolicyConfiguration( new ClassPathResource("securityPolicy.xml"));
+	return xwsSecurityInterceptor;
+}
+
+
+@Bean
+public SimplePasswordValidationCallbackHandler callbackHandler(){
+	SimplePasswordValidationCallbackHandler handler = new SimplePasswordValidationCallbackHandler();
+        handler.setUserMap( Collections.singletonMap("klay","123");
+	return handler; 
+}
+
+
+Criar um arquivo de segurança dentro do resource
+securityPolicy.xml
+
+<xwss:SecurityConfiguration xmlns:xwss="http://java.sun.com/xml/ns/xwss/config">
+    <xwss:RequireUsernameToken passwordDigestRequired="false" nonceRequired="false"/>
+</xwss:SecurityConfiguration>
+
+
+
+@Override
+public void addInterceptors( List<EndpointInterceptor> interceptors ){
+	interceptors.add( securityInterceptor());
+}
+
+--
+run maven clean
+run maven install
+
+Incluir no XML de requisição no SOAPUI
+Por Exemplo:
+
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tce="http://tce.rs.gov.br">
+
+   <soapenv:Header>
+	
+      <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" mustUnderstand="1">
+         <wsse:UsernameToken >
+            <wsse:Username>klay</wsse:Username>
+            <wsse:Password>123</wsse:Password>
+         </wsse:UsernameToken>
+      </wsse:Security>
+
+   </soapenv:Header>
+
+
+
+   <soapenv:Body>
+      <tce:GetOrgaoDetailRequest>
+         <tce:id>88019</tce:id>
+      </tce:GetOrgaoDetailRequest>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+
+
+
+
+

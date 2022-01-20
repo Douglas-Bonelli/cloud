@@ -24,18 +24,46 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		
+		
+		
+		
+		<!-- Dependencias Para geração do Token JWT -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
 			<version>0.9.1</version>
 		</dependency>
 		
+		
+		
+		
+		<!-- Dependencias Para execução do Jaxb -->
 		<dependency>
-		  <groupId>javax.xml.bind</groupId>
-		  <artifactId>jaxb-api</artifactId>
-		  <version>2.3.0</version>
+		    <groupId>javax.xml.bind</groupId>
+		    <artifactId>jaxb-api</artifactId>
+		    <version>2.3.0-b170201.1204</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/javax.activation/activation -->
+		<dependency>
+		    <groupId>javax.activation</groupId>
+		    <artifactId>activation</artifactId>
+		    <version>1.1</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.glassfish.jaxb/jaxb-runtime -->
+		<dependency>
+		    <groupId>org.glassfish.jaxb</groupId>
+		    <artifactId>jaxb-runtime</artifactId>
+		    <version>2.3.0-b170127.1453</version>
 		</dependency>
 
+
+
+
+
+
+		<!-- Dependencias Spring Desevolvimento -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -44,13 +72,8 @@
 		</dependency>
 		
 		
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
-		
-		
+
+		<!-- Dependencias De Testes -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -63,6 +86,11 @@
 		    <version>1.8.1</version>
 		</dependency>
 		
+		
+		
+		
+		
+		<!-- Dependencias WebService SOAP -->
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-web-services</artifactId>
@@ -73,6 +101,46 @@
 			<groupId>wsdl4j</groupId>
 			<artifactId>wsdl4j</artifactId>
 		</dependency>
+		
+		
+		
+		<!-- Dependencias WebService Security SOAP -->
+		<dependency>
+			<groupId>org.springframework.ws</groupId>
+			<artifactId>spring-ws-security</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.security</groupId>
+					<artifactId>spring-security-core</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/com.sun.xml.wss/xws-security -->
+		<dependency>
+    		<groupId>com.sun.xml.wss</groupId>
+    		<artifactId>xws-security</artifactId>
+    		<version>3.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.xml.crypto</groupId>
+					<artifactId>xmldsig</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		
+		
+		
+		
+		
 		
 		
 	</dependencies>

@@ -1,5 +1,6 @@
 package br.com.intelligence.project.cloud.soap;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,17 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import br.com.intelligence.project.cloud.entity.Orgao;
+import br.com.intelligence.project.cloud.exception.NotFoundException;
+import br.com.intelligence.project.cloud.helper.Status;
 import br.com.intelligence.project.cloud.service.imp.OrgaoServiceImp;
+import br.gov.rs.tce.DeleteOrgaoRequest;
+import br.gov.rs.tce.DeleteOrgaoResponse;
+import br.gov.rs.tce.GetAllOrgaoDetailRequest;
+import br.gov.rs.tce.GetAllOrgaoDetailResponse;
 import br.gov.rs.tce.GetOrgaoDetailRequest;
 import br.gov.rs.tce.GetOrgaoDetailResponse;
 import br.gov.rs.tce.OrgaoDetail;
+import br.gov.rs.tce.StatusSoap;
 
 @Endpoint
 public class OrgaoEndPoint {
@@ -21,22 +29,92 @@ public class OrgaoEndPoint {
 	OrgaoServiceImp service;
 	
 	
+	
 	@PayloadRoot( namespace = "http://tce.rs.gov.br" , localPart = "GetOrgaoDetailRequest" )
 	@ResponsePayload
-	public GetOrgaoDetailResponse processGetOrgaoDetailRequest(@RequestPayload GetOrgaoDetailRequest req) {
-		
-		OrgaoDetail detail = new OrgaoDetail();
+	public GetOrgaoDetailResponse processGetOrgaoDetailRequest(@RequestPayload GetOrgaoDetailRequest req) throws Exception {
 		
 		Optional<Orgao> opt = service.findById(req.getId());
-		if(opt.isPresent()){
-			detail.setId(opt.get().getId());
-			detail.setNome(opt.get().getNome());
-		}
 		
-		GetOrgaoDetailResponse response = new GetOrgaoDetailResponse();
-		response.setOrgaoDetail(detail);
+		if ( opt.isEmpty() )
+			throw new NotFoundException("Invalid Orgao id: "+ req.getId());
+		else 
+			return convertToCustomerDetailResponse(   opt.get()  );
 		
-		return response;
 	}
+	
+	
+	@PayloadRoot( namespace = "http://tce.rs.gov.br" , localPart = "GetAllOrgaoDetailRequest" )
+	@ResponsePayload
+	public GetAllOrgaoDetailResponse processGetAllOrgaoDetailRequest(@RequestPayload GetAllOrgaoDetailRequest req) throws Exception {
+		return convertToGetAllCustomerDetailResponse( service.getAll() );
+	}
+	
+	
+	@PayloadRoot( namespace = "http://tce.rs.gov.br" , localPart = "DeleteOrgaoRequest" )
+	@ResponsePayload
+	public DeleteOrgaoResponse procesDeleteOrgaoRequest(@RequestPayload DeleteOrgaoRequest req) throws Exception {
+		DeleteOrgaoResponse resp = new DeleteOrgaoResponse();
+		resp.setStatus(  convertToStatusSoap(service.deleteById(req.getId())) );
+		return resp;
+	}
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * Este metodo é Responsavel por receber um Orgao e Transformar em um OrgaoDetail
+	 * @param og
+	 * @return
+	 */
+	private OrgaoDetail convertToOrgaoDetail(Orgao og) {
+		OrgaoDetail det = new OrgaoDetail();
+		det.setId(og.getId());
+		det.setNome(og.getNome());
+		return det;
+	}
+	
+	
+	/**
+	 * Este Metodo é responsavel po Receber um Objeto Orgao e Transformar em um retorno para o WebService Soap
+	 * @param o
+	 * @return
+	 */
+	private GetOrgaoDetailResponse convertToCustomerDetailResponse(Orgao o) {
+		GetOrgaoDetailResponse resp = new GetOrgaoDetailResponse();
+		resp.setOrgaoDetail( convertToOrgaoDetail(o)  );
+		return resp;
+	}
+	
+	
+	/**
+	 * Este Metodo é responsavel Por Receber uma Lista de orgaos e devolver um Objeto SOAP com uma lista de orgãos
+	 * @param orgaos
+	 * @return
+	 */
+	private GetAllOrgaoDetailResponse convertToGetAllCustomerDetailResponse( List<Orgao> orgaos ){
+
+		GetAllOrgaoDetailResponse getAll = new GetAllOrgaoDetailResponse();	
+		orgaos.stream().forEach( c -> getAll.getOrgaoDetail().add( convertToOrgaoDetail(c) ) );
+		
+		return getAll;
+	}
+	
+	private StatusSoap convertToStatusSoap(Status status) {
+		
+		if( status == status.SUCCESS)
+			return StatusSoap.SUCCESS;
+		
+		else return StatusSoap.FAILURE;
+	}
+	
+	
+	
+	
+	
+	
 
 }
